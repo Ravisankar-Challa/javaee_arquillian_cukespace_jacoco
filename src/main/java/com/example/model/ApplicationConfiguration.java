@@ -14,8 +14,10 @@ import javax.persistence.*;
 public class ApplicationConfiguration implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE, generator="TableGenerator1")
-	@TableGenerator(name="TableGenerator1", allocationSize=1, initialValue=1, table="Hello")
+	//@GeneratedValue(strategy=GenerationType.TABLE, generator="TableGenerator1")
+	//@TableGenerator(name="TableGenerator1", allocationSize=1, initialValue=1, table="Hello")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq_gen1")
+	@SequenceGenerator(name="seq_gen1", allocationSize=1, initialValue=1, sequenceName="MY_SEQ_1")
 	private Long id;
 	private String application;
 	private String name;
