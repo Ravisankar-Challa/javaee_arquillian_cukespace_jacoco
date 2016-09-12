@@ -1,5 +1,8 @@
 package com.example.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -51,11 +54,12 @@ public class StartupService {
 											   .value("value2")
 											   .build());
 		
-		Cache.store.setConfigMap(configRespository
-				.findConfigurationItemsByApplication("app")
-				.stream()
-				.collect(Collectors.toMap(ApplicationConfiguration::getName, 
-						ApplicationConfiguration::getValue)));
+		List<ApplicationConfiguration> appConfig = configRespository.findConfigurationItemsByApplication("app");
+        Map<String, String> config = new HashMap<>();
+        for(ApplicationConfiguration conf : appConfig) {
+            config.put(conf.getName(), conf.getValue());
+        }
+        Cache.store.setConfigMap(config);
 	}
 	
 }

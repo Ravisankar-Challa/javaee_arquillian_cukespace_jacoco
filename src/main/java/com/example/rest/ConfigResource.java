@@ -1,5 +1,8 @@
 package com.example.rest;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -31,11 +34,12 @@ public class ConfigResource {
 	@Path("update")
 	public void update() {
 		respository.update();
-		Cache.store.setConfigMap(respository
-				.findConfigurationItemsByApplication("app")
-				.stream()
-				.collect(Collectors.toMap(ApplicationConfiguration::getName, 
-						ApplicationConfiguration::getValue)));
+		List<ApplicationConfiguration> appConfig = respository.findConfigurationItemsByApplication("app");
+		Map<String, String> config = new HashMap<>();
+		for(ApplicationConfiguration conf : appConfig) {
+		    config.put(conf.getName(), conf.getValue());
+		}
+		Cache.store.setConfigMap(config);
 	}
 	
 	@GET
